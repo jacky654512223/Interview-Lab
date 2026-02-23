@@ -1,0 +1,14 @@
+# Render 免费部署（见 DEPLOY.md）
+# 用 "New Web Service" 连接本仓库后，Build/Start 命令会自动带出；也可用 "Blueprint" 一键创建
+services:
+  - type: web
+    name: interview-lab
+    runtime: node
+    buildCommand: npm run install:all && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # GROQ_API_KEY 等需在 Dashboard -> Environment 里添加（sync: false 表示在网页填）
+      - key: GROQ_API_KEY
+        sync: false
