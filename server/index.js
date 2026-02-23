@@ -75,8 +75,12 @@ app.post('/api/questions', async (req, res) => {
     const questions = await generateQuestions(resumeText, job, companyStyle || '落地型');
     res.json(questions);
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: '生成问题失败，请重试' });
+    console.error('生成问题失败', e);
+    const msg = e?.message || String(e);
+    const oneLine = msg.split('\n')[0].slice(0, 280);
+    const isSafe = oneLine && !oneLine.includes(' at ') && !oneLine.includes('node_modules');
+    const safeMsg = isSafe ? oneLine : '生成问题失败，请重试';
+    res.status(500).json({ error: safeMsg });
   }
 });
 
